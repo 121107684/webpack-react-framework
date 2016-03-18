@@ -46,6 +46,8 @@ var config = {
         publicPath: '/assets/'
     },
     plugins: [
+        //排除css压缩加载在页面
+        new ExtractTextPlugin('dist/css/[name].css'),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
     ],

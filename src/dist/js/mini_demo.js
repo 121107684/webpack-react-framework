@@ -8,7 +8,8 @@ var ReactDOM = require('react-dom');
 var Hello = React.createClass({
     render: function() {
         return (
-            <span className="timeBox" style={this.props.color}>TIME:{this.props.date.toTimeString()}
+            <span className={style.timeBox2} style={this.props.color}>
+                TIME:{this.props.date.toTimeString()}
             </span>
         );
     }

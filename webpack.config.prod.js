@@ -46,11 +46,12 @@ var config = {
         //加载器配置
         loaders: [{
             test: /\.css$/,
-            loaders: [
-                'style-loader',
-                'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-                'postcss-loader'
-            ]
+            exclude: path.resolve(__dirname, 'src/dist/css/common'),
+            loader: ExtractTextPlugin.extract('style','css?modules&localIdentName=[name]__[local]___[hash:base64:5]','postcss?sourceMap=true')
+        }, {
+            test: /\.css$/,
+            include: path.resolve(__dirname, 'src/dist/css/common'),
+            loader: ExtractTextPlugin.extract('style','css','postcss?sourceMap=true')
         }, {
             test: /\.js$/,
             loaders: ['babel'],

@@ -2,12 +2,47 @@ body {
     font-size: 20px;
     color: #555;
     padding: 10px;
+    background: #ffe;
 }
 
 .timeBox {
     font-size: 40px;
 }
+.time_warp
+{
+	text-align: center;
+}
+.time_warp h1
+{
+	font-size: 32px;
+}
+.time_warp p
+{
+	font-size: 20px;
+	font-weight: bold;
+}
+.time_content
+{
+	font-size: 0;
+	text-align: center;
+}
 
-.timeBox2 {
-    font-size: 12px;
+.time_content li
+{
+	box-shadow: 1px 1px 5px #aaa;
+	border-radius:10px;
+	background: #fff;
+	padding: 5px;
+	margin: 10px;
+	font-size: 80px;
+	line-height: 80px;
+	display: inline-block;
+	font-family: "Arial";
+}
+.time_content li.time_nobackground
+{
+	background: none;
+	box-shadow: none;
+	padding: 0;
+	margin: 0;
 }

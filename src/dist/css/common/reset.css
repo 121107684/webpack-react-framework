@@ -41,3 +41,7 @@ sub { bottom: -0.25em; }
 a:hover { text-decoration: underline; }
 /* 默认不显示下划线，保持页面简洁 */
 ins, a { text-decoration: none; }
+.a
+{
+	font-family: arial;
+}

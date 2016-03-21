@@ -20,7 +20,6 @@ var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
 //加载webpack目录参数配置
 var config = {
-    // or devtool: 'eval' to debug issues with compiled output:
     devtool: 'cheap-module-eval-source-map',
     entry:
     //  {
@@ -53,14 +52,19 @@ var config = {
     ],
     module: {
         //加载器配置
-        loaders: [{
+        loaders: [
+        {
             test: /\.css$/,
-            loaders: [
-                'style-loader',
-                'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-                'postcss-loader'
-            ]
+            exclude: path.resolve(__dirname, 'src/dist/css/common'),
+            loader: ExtractTextPlugin.extract('style','css?modules&localIdentName=[name]__[local]___[hash:base64:5]','postcss?sourceMap=true')
         }, {
+            test: /\.css$/,
+            include: path.resolve(__dirname, 'src/dist/css/common'),
+            loader: ExtractTextPlugin.extract('style','css','postcss?sourceMap=true')
+        }, 
+        // 把CSS放在js里面的参数为 &importLoaders=1
+        // css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]         
+        {
             test: /\.js$/,
             loaders: ['babel'],
             include: path.join(__dirname, 'src')

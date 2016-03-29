@@ -1,8 +1,9 @@
-.todo_list
-{
-	width: 400px;
-	margin: 0 auto;
+body {
+    background: url(../../img/bg.jpg) center top;
+    background-size: cover;
+    background-attachment: fixed;
 }
-.todo_list{
-	
+
+.fr {
+    float: right;
 }

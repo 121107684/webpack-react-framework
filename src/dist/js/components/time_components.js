@@ -7,48 +7,31 @@ var style = require('./../../css/style.css');
 
 //创建数字变化显示
 
-var Timeshowhours = React.createClass({
+var Timeshownumber = React.createClass({
     render: function() {
-    	var hour = 23-this.props.date.getHours();
+        var number = this.props.number ? this.props.number : 0;
         return (
-        	<li>
-        	{hour<10?"0"+hour:hour}
-        	</li>
+            <li>
+            {number<10?"0"+number:number}
+            </li>
         );
     }
 });
 
-var Timeshowmins = React.createClass({
-    render: function() {
-    	var mins = 59-this.props.date.getMinutes();
-        return (
-        	<li>
-        	{mins<10?"0"+mins:mins}
-        	</li>
-        );
-    }
-});
-
-var Timeshowsecond = React.createClass({
-    render: function() {
-    	var second = 59-this.props.date.getSeconds();
-        return (
-        	<li>
-        	{second<10?"0"+second:second}
-        	</li>
-        );
-    }
-});
 
 var Timebox = React.createClass({
     render: function() {
+        var date = new Date();
+        var hour = 23 - date.getHours();
+        var mins = 59 - date.getMinutes();
+        var second = 59 - date.getSeconds();
         return (
-            <ul className={style.time_content} data = {this.props.date}>
-            	<Timeshowhours  date={new Date()} />
-            	<li className={style.time_nobackground}>:</li>
-            	<Timeshowmins date={new Date()}/>
-            	<li className={style.time_nobackground}>:</li>
-            	<Timeshowsecond date={new Date()}/>
+            <ul className={style.time_content} >
+                <Timeshownumber  number={hour} />
+                <li className={style.time_nobackground}>:</li>
+                <Timeshownumber number={mins}/>
+                <li className={style.time_nobackground}>:</li>
+                <Timeshownumber number={second}/>
             </ul>
         );
     }
@@ -57,14 +40,14 @@ var Timebox = React.createClass({
 var Timeroot = React.createClass({
     render: function() {
         return (
-        	<div className={style.time_warp}>
-        		<h1>
-        			距离今天结束
-        		</h1>
-        		<p>
-        		快制定今天的计划吧 ┏ (゜ω゜)=☞
-        		</p>
-            	<Timebox />
+            <div className={style.time_warp}>
+                <h1>
+                    距离今天结束
+                </h1>
+                <p>
+                快制定今天的计划吧 ┏ (゜ω゜)=☞
+                </p>
+                <Timebox />
             </div>
         );
     }

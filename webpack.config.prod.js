@@ -30,12 +30,9 @@ var config = {
     plugins: [
         //排除css压缩加载在页面
         new ExtractTextPlugin('dist/css/[name].css'),
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
+        //合并额外的js包
+        new CommonsChunkPlugin('lib', './dist/js/lib.js', ['todo', 'mini-demo']),
+        //new webpack.optimize.CommonsChunkPlugin('lib', './dist/js/lib.js'),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
                 warnings: false
@@ -47,18 +44,18 @@ var config = {
         loaders: [{
             test: /\.css$/,
             exclude: path.resolve(__dirname, 'src/dist/css/common'),
-            loader: ExtractTextPlugin.extract('style','css?modules&localIdentName=[name]__[local]___[hash:base64:5]','postcss?sourceMap=true')
+            loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss?sourceMap=true')
         }, {
             test: /\.css$/,
             include: path.resolve(__dirname, 'src/dist/css/common'),
-            loader: ExtractTextPlugin.extract('style','css','postcss?sourceMap=true')
+            loader: ExtractTextPlugin.extract('style', 'css', 'postcss?sourceMap=true')
         }, {
             test: /\.js$/,
             loaders: ['babel'],
             include: path.join(__dirname, 'src')
         }, {
             test: /\.(png|jpeg|jpg|gif)$/,
-            loader: 'file?name=dist/img/[name].[ext]'
+            loader: 'file?name=../img/[name].[ext]&to=dist/img/[name].[ext]'
         }, {
             test: /\.(woff|eot|ttf)$/i,
             loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
@@ -80,6 +77,8 @@ function getEntry() {
         var entryPath = entry ? path.resolve(jsDir, name) : '';
         if (entry) map[entry] = entryPath;
     });
+    //自定义额外加载包,不会合并在页面对应js中
+    map['lib'] = ['react'];
     return map;
 }
 

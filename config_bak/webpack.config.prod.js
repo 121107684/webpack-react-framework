@@ -20,66 +20,48 @@ var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
 //加载webpack目录参数配置
 var config = {
-    devtool: 'cheap-module-eval-source-map',
-    entry:
-    //  {
-    //     indexs: [
-    //         './src/dist/js/indexs.js',
-    //         // necessary for hot reloading with IE:
-    //         'eventsource-polyfill',
-    //         // listen to code updates emitted by hot middleware:
-    //         'webpack-hot-middleware/client'
-    //     ],
-    //     indexs2: [
-    //         './src/dist/js/indexs2.js',
-    //         // necessary for hot reloading with IE:
-    //         'eventsource-polyfill',
-    //         // listen to code updates emitted by hot middleware:
-    //         'webpack-hot-middleware/client'
-    //     ]
-    // },
-        getEntry(),
+    devtool: 'source-map',
+    entry: getEntry(),
     output: {
         path: path.join(__dirname, 'assets'),
         filename: 'dist/js/[name].js',
-        publicPath: '/assets/'
+        publicPath: ''
     },
     plugins: [
         //排除css压缩加载在页面
         new ExtractTextPlugin('dist/css/[name].css'),
         //合并额外的js包
-        new CommonsChunkPlugin('lib', './dist/js/lib.js', ['todo', 'mini-demo']),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        //new webpack.optimize.CommonsChunkPlugin('lib', './dist/js/lib.js'),
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                warnings: false
+            }
+        })
     ],
     module: {
         //加载器配置
         loaders: [{
-                test: /\.css$/,
-                exclude: path.resolve(__dirname, 'src/dist/css/common'),
-                loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss?sourceMap=true')
-            }, {
-                test: /\.css$/,
-                include: path.resolve(__dirname, 'src/dist/css/common'),
-                loader: ExtractTextPlugin.extract('style', 'css', 'postcss?sourceMap=true')
-            },
-            // 把CSS放在js里面的参数为 &importLoaders=1
-            // css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]         
-            {
-                test: /\.js$/,
-                loaders: ['babel'],
-                include: path.join(__dirname, 'src')
-            }, {
-                test: /\.(png|jpeg|jpg|gif)$/,
-                loader: 'file?name=dist/img/[name].[ext]'
-            }, {
-                test: /\.(woff|eot|ttf)$/i,
-                loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
-            }, {
-                test: /\.json$/,
-                loader: 'json'
-            }
-        ]
+            test: /\.css$/,
+            exclude: path.resolve(__dirname, 'src/dist/css/common'),
+            loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss?sourceMap=true')
+        }, {
+            test: /\.css$/,
+            include: path.resolve(__dirname, 'src/dist/css/common'),
+            loader: ExtractTextPlugin.extract('style', 'css', 'postcss?sourceMap=true')
+        }, {
+            test: /\.js$/,
+            loaders: ['babel'],
+            include: path.join(__dirname, 'src')
+        }, {
+            test: /\.(png|jpeg|jpg|gif)$/,
+            loader: 'file?name=dist/img/[name].[ext]'
+        }, {
+            test: /\.(woff|eot|ttf)$/i,
+            loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
+        }, {
+            test: /\.json$/,
+            loader: 'json'
+        }]
     }
 };
 
@@ -92,11 +74,7 @@ function getEntry() {
         var m = name.match(/(.+)\.js$/);
         var entry = m ? m[1] : '';
         var entryPath = entry ? path.resolve(jsDir, name) : '';
-        var entryArr = [];
-        entryArr.push(entryPath);
-        entryArr.push('eventsource-polyfill');
-        entryArr.push('webpack-hot-middleware/client');
-        if (entry) map[entry] = entryArr;
+        if (entry) map[entry] = entryPath;
     });
     //自定义额外加载包,不会合并在页面对应js中
     map['lib'] = ['react'];

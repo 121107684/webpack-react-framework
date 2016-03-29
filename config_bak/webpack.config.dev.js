@@ -48,7 +48,7 @@ var config = {
         //排除css压缩加载在页面
         new ExtractTextPlugin('dist/css/[name].css'),
         //合并额外的js包
-        new CommonsChunkPlugin('lib', './dist/js/lib.js', ['todo', 'mini-demo']),
+        //new webpack.optimize.CommonsChunkPlugin('lib', './dist/js/lib.js'),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
     ],

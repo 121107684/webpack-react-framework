@@ -21,6 +21,7 @@ function getEntry() {
         entryArr.push('webpack-hot-middleware/client');
         if (entry) map[entry] = entryArr;
     });
+    map['lib']=['react'];
     return map;
 }
 

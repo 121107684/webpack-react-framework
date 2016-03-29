@@ -1,48 +1,141 @@
 body {
     font-size: 20px;
-    color: #555;
+    color: #fff;
     padding: 10px;
     background: #ffe;
+    text-shadow: 1px 1px 3px #333;
 }
 
 .timeBox {
     font-size: 40px;
 }
-.time_warp
-{
-	text-align: center;
-}
-.time_warp h1
-{
-	font-size: 32px;
-}
-.time_warp p
-{
-	font-size: 20px;
-	font-weight: bold;
-}
-.time_content
-{
-	font-size: 0;
-	text-align: center;
+
+.time_warp {
+    text-align: center;
 }
 
-.time_content li
-{
-	box-shadow: 1px 1px 5px #aaa;
-	border-radius:10px;
-	background: #fff;
-	padding: 5px;
-	margin: 10px;
-	font-size: 80px;
-	line-height: 80px;
-	display: inline-block;
-	font-family: "Arial";
+.time_warp h1 {
+    font-size: 32px;
 }
-.time_content li.time_nobackground
-{
-	background: none;
-	box-shadow: none;
-	padding: 0;
-	margin: 0;
+
+.time_warp p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.time_content {
+    font-size: 0;
+    text-align: center;
+    text-shadow: none;
+    color: #333;
+}
+
+.time_content li {
+    box-shadow: 1px 1px 5px #2D2D2D;
+    border-radius: 10px;
+    background: #fff;
+    padding: 5px;
+    margin: 10px;
+    font-size: 70px;
+    line-height: 70px;
+    display: inline-block;
+    font-family: "Arial";
+}
+
+.time_content li.time_nobackground {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    text-shadow: 1px 1px 3px #333;
+}
+
+.todo_list {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.todo_list h2 {
+    margin: 10px auto 20px auto;
+    position: relative;
+    width: 290px;
+    background: #fff;
+    background: linear-gradient(-150deg, transparent 1.5em, #fff 0);
+    padding: 20px 40px 20px 20px;
+    height: 130px;
+    color: white;
+    border-radius: .5em;
+    font-size: 16px;
+}
+
+.todo_list h2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1.73em;
+    height: 3em;
+    background: linear-gradient(to left bottom, transparent 50%, rgba(0, 0, 0, .2) 0, rgba(0, 0, 0, .4)) 100% 0 no-repeat;
+    transform: translateY(-1.3em) rotate(-30deg);
+    transform-origin: bottom right;
+    border-bottom-left-radius: .5em;
+    box-shadow: -.2em .2em .3em -.1em rgba(0, 0, 0, .15)
+}
+
+.todo_list h2 textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+    outline: none;
+    background: none;
+}
+
+.todo_list h2 input {
+    border: none;
+    background: rgba(0, 0, 0, 0.72);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 5px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.todo_list ul {
+    margin: 0 25px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.todo_list li {
+    background: #fff;
+    padding: 15px;
+    color: #333;
+    text-shadow: none;
+    border-bottom: 1px solid #E0E0E0;
+    margin-bottom: 0px;
+    font-size: 16px;
+}
+
+.todo_list li input {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.todo_list li i {
+    font-style: normal;
+    cursor: pointer;
+    font-family: arial;
+    color: #666A82;
+    line-height: 30px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.todo_list li.active {
+    text-decoration: line-through;
 }

@@ -17,6 +17,7 @@
   "author": "AeMoE",
   "license": "MIT",
   "devDependencies": {
+    "autoprefixer": "^6.3.6",
     "babel-core": "^6.6.5",
     "babel-eslint": "^5.0.0-beta4",
     "babel-loader": "^6.2.4",
@@ -33,9 +34,14 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.10.0",
+    "jquery": "^2.2.3",
     "json-loader": "^0.5.4",
+    "postcss-display-inline-block": "^1.0.0",
+    "postcss-import": "^8.1.2",
     "postcss-loader": "^0.8.2",
     "postcss-modules": "^0.4.0",
+    "precss": "^1.4.0",
+    "raphael": "^2.2.0",
     "react-css-modules": "^3.7.6",
     "rimraf": "^2.4.3",
     "style-loader": "^0.13.0",
@@ -44,7 +50,7 @@
     "webpack-hot-middleware": "^2.9.1"
   },
   "dependencies": {
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1"
   }
 }

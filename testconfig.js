@@ -6,6 +6,8 @@ var path = require('path');
 var srcDir = path.resolve(process.cwd(), 'src');
 //加载自动化HTML自动化编译插件
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+//排除的页面入口js
+var jsExtract = [];
 
 function getEntry() {
     var jsDir = path.resolve(srcDir, 'dist/js');
@@ -19,9 +21,15 @@ function getEntry() {
         entryArr.push(entryPath);
         entryArr.push('eventsource-polyfill');
         entryArr.push('webpack-hot-middleware/client');
-        if (entry) map[entry] = entryArr;
+
+        if (entry) {
+            jsExtract.push(name.substring(0, name.length - 3));
+            map[entry] = entryArr;
+        }
     });
-    map['lib']=['react'];
+    console.log(jsExtract);
+    map['lib'] = ['react'];
+    map['vender'] = ['jquery'];
     return map;
 }
 
@@ -51,7 +59,8 @@ pages.forEach(function(filename) {
 
             conf.chunks = ['vendors', m[1]];
         }
+        //console.log(conf)
+        // config.plugins.push(new HtmlWebpackPlugin(conf));
 
-        config.plugins.push(new HtmlWebpackPlugin(conf));
     }
 });

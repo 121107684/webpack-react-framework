@@ -17,6 +17,12 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 //加载公用组件插件
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+//设置需要排除单独打包的插件
+var singleModule = ['react', 'react-dom', 'jquery'];
+//postcss辅助插件
+var postcssImport = require('postcss-import');
+//排除的页面入口js
+var jsExtract = [];
 
 //加载webpack目录参数配置
 var config = {
@@ -48,20 +54,23 @@ var config = {
         //排除css压缩加载在页面
         new ExtractTextPlugin('dist/css/[name].css'),
         //合并额外的js包
-        new CommonsChunkPlugin('lib', './dist/js/lib.js', ['todo', 'mini-demo']),
+        new CommonsChunkPlugin('lib', './dist/js/lib.js', jsExtract),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery'
+        })
     ],
     module: {
         //加载器配置
         loaders: [{
                 test: /\.css$/,
                 exclude: path.resolve(__dirname, 'src/dist/css/common'),
-                loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss?sourceMap=true')
+                loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss?sourceMap=true')
             }, {
                 test: /\.css$/,
                 include: path.resolve(__dirname, 'src/dist/css/common'),
-                loader: ExtractTextPlugin.extract('style', 'css', 'postcss?sourceMap=true')
+                loader: ExtractTextPlugin.extract('style', 'css!postcss?sourceMap=true')
             },
             // 把CSS放在js里面的参数为 &importLoaders=1
             // css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]         
@@ -80,6 +89,15 @@ var config = {
                 loader: 'json'
             }
         ]
+    },
+    postcss: function(webpack) {
+        return [
+            postcssImport({
+                addDependencyTo: webpack
+            }),
+            require('postcss-display-inline-block'),
+            require('autoprefixer')
+        ];
     }
 };
 
@@ -96,10 +114,14 @@ function getEntry() {
         entryArr.push(entryPath);
         entryArr.push('eventsource-polyfill');
         entryArr.push('webpack-hot-middleware/client');
-        if (entry) map[entry] = entryArr;
+        jsExtract.push(name);
+        if (entry) {
+            jsExtract.push(name.substring(0, name.length - 3));
+            map[entry] = entryArr;
+        }
     });
     //自定义额外加载包,不会合并在页面对应js中
-    map['lib'] = ['react'];
+    map['lib'] = singleModule;
     return map;
 }
 

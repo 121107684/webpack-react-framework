@@ -50,11 +50,11 @@ var Todolist = React.createClass({
         var value = this.state.value;
         return (
             <div className={style.todo_list} >
-            	<h2>
-					<textarea placeholder='输入自己的任务,开始不一样的效率工作~'  onChange={this.handleChange}  ref='todoInput'  />
-					<input type='button' value='提交' onClick={this.handleOnClick} />
-				</h2>
-				<Todoli  data = {data}/>
+                <h2>
+                    <textarea placeholder='输入自己的任务,开始不一样的效率工作~'  onChange={this.handleChange}  ref='todoInput'  />
+                    <input type='button' value='提交' onClick={this.handleOnClick} />
+                </h2>
+                <Todoli  data = {data}/>
             </div>
         );
     }
@@ -104,8 +104,8 @@ var Todoli = React.createClass({
         });
         return (
             <ul ref='todoList'>
-            	{todoNodes}
-        	</ul>
+                {todoNodes}
+            </ul>
         );
     }
 });

@@ -17,6 +17,12 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 //加载公用组件插件
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+//设置需要排除单独打包的插件
+var singleModule = ['react', 'react-dom', 'jquery', 'Raphael'];
+//postcss辅助插件
+var postcssImport = require('postcss-import');
+//排除的页面入口js
+var jsExtract = [];
 
 //加载webpack目录参数配置
 var config = {
@@ -31,12 +37,15 @@ var config = {
         //排除css压缩加载在页面
         new ExtractTextPlugin('dist/css/[name].css'),
         //合并额外的js包
-        new CommonsChunkPlugin('lib', './dist/js/lib.js', ['todo', 'mini-demo']),
+        new CommonsChunkPlugin('lib', './dist/js/lib.js', jsExtract),
         //new webpack.optimize.CommonsChunkPlugin('lib', './dist/js/lib.js'),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
                 warnings: false
             }
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery'
         })
     ],
     module: {
@@ -44,11 +53,11 @@ var config = {
         loaders: [{
             test: /\.css$/,
             exclude: path.resolve(__dirname, 'src/dist/css/common'),
-            loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss?sourceMap=true')
+            loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
         }, {
             test: /\.css$/,
             include: path.resolve(__dirname, 'src/dist/css/common'),
-            loader: ExtractTextPlugin.extract('style', 'css', 'postcss?sourceMap=true')
+            loader: ExtractTextPlugin.extract('style', 'css!postcss-loader')
         }, {
             test: /\.js$/,
             loaders: ['babel'],
@@ -63,6 +72,15 @@ var config = {
             test: /\.json$/,
             loader: 'json'
         }]
+    },
+    postcss: function(webpack) {
+        return [
+            postcssImport({
+                addDependencyTo: webpack
+            }),
+            require('postcss-display-inline-block'),
+            require('autoprefixer')
+        ];
     }
 };
 
@@ -75,10 +93,13 @@ function getEntry() {
         var m = name.match(/(.+)\.js$/);
         var entry = m ? m[1] : '';
         var entryPath = entry ? path.resolve(jsDir, name) : '';
-        if (entry) map[entry] = entryPath;
+        if (entry) {
+            jsExtract.push(name.substring(0, name.length - 3));
+            map[entry] = entryPath;
+        }
     });
     //自定义额外加载包,不会合并在页面对应js中
-    map['lib'] = ['react'];
+    map['lib'] = singleModule;
     return map;
 }
 

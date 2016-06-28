@@ -8,16 +8,20 @@ var compiler = webpack(config);
 
 app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
-    publicPath: config.output.publicPath
+    publicPath: config.output.publicPath,
+    hot: true,
+    lazy: false,
+    historyApiFallback: false
 }));
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-// app.use('/public', express.static('public'));
+var serveIndex = require('serve-index');
+app.use('/', serveIndex(path.join(__dirname, '/assets')));
+app.use('/', express.static(path.join(__dirname, '/assets')));
 
 // app.get('*', function(req, res) {
-//     res.sendFile(path.join(__dirname, './src/indexs.html'));
-//     res.sendFile(path.join(__dirname, './src/indexs2.html'));
+//     res.sendFile(path.join(__dirname, './src/todo.html'));
 // });
 
 

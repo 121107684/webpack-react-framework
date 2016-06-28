@@ -61,6 +61,7 @@ var config = {
         }, {
             test: /\.js$/,
             loaders: ['babel'],
+            exclude: /node_modules/, // 匹配不希望处理文件的路径
             include: path.join(__dirname, 'src')
         }, {
             test: /\.(png|jpeg|jpg|gif)$/,
@@ -79,7 +80,8 @@ var config = {
                 addDependencyTo: webpack
             }),
             require('postcss-display-inline-block'),
-            require('autoprefixer')
+            require('autoprefixer'),
+            require('precss')
         ];
     }
 };

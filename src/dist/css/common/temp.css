@@ -2,7 +2,6 @@ body {
     background: url(../../img/bg.jpg) center top;
     background-size: cover;
     background-attachment: fixed;
-    display: inline-block;
 }
 
 .fr {

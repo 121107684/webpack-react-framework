@@ -3,7 +3,7 @@ var reset = require('./../css/common/reset.css');
 var style = require('./../css/style.css');
 var React = require('react');
 var ReactDOM = require('react-dom');
-
+var ReactDOMServer = require('react-dom/server');
 
 var Hello = React.createClass({
     render: function() {
@@ -14,6 +14,15 @@ var Hello = React.createClass({
         );
     }
 });
+
+class MyComponent extends React.Component {
+    render() {
+        return <div>Hello World</div>;
+    }
+}
+var DOMStr = ReactDOMServer.renderToStaticMarkup(<MyComponent />);
+var stacticStr = ReactDOMServer.renderToStaticMarkup(<MyComponent />);
+console.log(DOMStr, stacticStr);
 
 setInterval(function() {
     var color = '#' + parseInt(Math.random() * 999999);

@@ -48,7 +48,7 @@ var config = {
     output: {
         path: path.join(__dirname, 'assets'),
         filename: 'dist/js/[name].js',
-        publicPath: '/assets/'
+        publicPath: 'http://localhost:3000/'
     },
     plugins: [
         //排除css压缩加载在页面
@@ -64,31 +64,36 @@ var config = {
     module: {
         //加载器配置
         loaders: [{
-                test: /\.css$/,
-                exclude: path.resolve(__dirname, 'src/dist/css/common'),
-                loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss?sourceMap=true')
-            }, {
-                test: /\.css$/,
-                include: path.resolve(__dirname, 'src/dist/css/common'),
-                loader: ExtractTextPlugin.extract('style', 'css!postcss?sourceMap=true')
-            },
-            // 把CSS放在js里面的参数为 &importLoaders=1
-            // css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]         
-            {
-                test: /\.js$/,
-                loaders: ['babel'],
-                include: path.join(__dirname, 'src')
-            }, {
-                test: /\.(png|jpeg|jpg|gif)$/,
-                loader: 'file?name=dist/img/[name].[ext]'
-            }, {
-                test: /\.(woff|eot|ttf)$/i,
-                loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
-            }, {
-                test: /\.json$/,
-                loader: 'json'
-            }
-        ]
+            test: /\.css$/,
+            exclude: path.resolve(__dirname, 'src/dist/css/common'),
+            loaders: [
+                'style-loader',
+                'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]&sourceMap&importLoaders=1',
+                'postcss-loader?sourceMap=true'
+            ]
+        }, {
+            test: /\.css$/,
+            include: path.resolve(__dirname, 'src/dist/css/common'),
+            loaders: [
+                'style-loader',
+                'css-loader?sourceMap&importLoaders=1',
+                'postcss-loader?sourceMap=true'
+            ]
+        }, {
+            test: /\.js$/,
+            loaders: ['react-hot', 'babel'],
+            exclude: /node_modules/, // 匹配不希望处理文件的路径
+            include: path.join(__dirname, 'src')
+        }, {
+            test: /\.(png|jpeg|jpg|gif)$/,
+            loader: 'file?name=dist/img/[name].[ext]'
+        }, {
+            test: /\.(woff|eot|ttf)$/i,
+            loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
+        }, {
+            test: /\.json$/,
+            loader: 'json'
+        }]
     },
     postcss: function(webpack) {
         return [
@@ -96,7 +101,8 @@ var config = {
                 addDependencyTo: webpack
             }),
             require('postcss-display-inline-block'),
-            require('autoprefixer')
+            require('autoprefixer'),
+            require('precss')
         ];
     }
 };

@@ -2,8 +2,10 @@ body {
     font-size: 20px;
     color: #fff;
     padding: 10px;
-    background: #ffe;
     text-shadow: 1px 1px 3px #333;
+    div {
+        color: '#fff';
+    }
 }
 
 .timeBox {

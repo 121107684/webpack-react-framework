@@ -27,24 +27,7 @@ var jsExtract = [];
 //加载webpack目录参数配置
 var config = {
     devtool: 'cheap-module-eval-source-map',
-    entry:
-    //  {
-    //     indexs: [
-    //         './src/dist/js/indexs.js',
-    //         // necessary for hot reloading with IE:
-    //         'eventsource-polyfill',
-    //         // listen to code updates emitted by hot middleware:
-    //         'webpack-hot-middleware/client'
-    //     ],
-    //     indexs2: [
-    //         './src/dist/js/indexs2.js',
-    //         // necessary for hot reloading with IE:
-    //         'eventsource-polyfill',
-    //         // listen to code updates emitted by hot middleware:
-    //         'webpack-hot-middleware/client'
-    //     ]
-    // },
-        getEntry(),
+    entry: getEntry(),
     output: {
         path: path.join(__dirname, 'assets'),
         filename: 'dist/js/[name].js',

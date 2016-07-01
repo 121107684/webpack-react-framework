@@ -1,3 +1,5 @@
 # ad
 assets/
 node_modules/
+config_bak/
+test/

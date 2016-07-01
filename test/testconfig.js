@@ -9,6 +9,14 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 //排除的页面入口js
 var jsExtract = [];
 
+var getIP = require('ipware')().get_ip;
+app.use(function(req, res, next) {
+    var ipInfo = getIP(req);
+    console.log(ipInfo);
+    // { clientIp: '127.0.0.1', clientIpRoutable: false }
+    next();
+});
+
 function getEntry() {
     var jsDir = path.resolve(srcDir, 'dist/js');
     var names = fs.readdirSync(jsDir);
@@ -27,7 +35,6 @@ function getEntry() {
             map[entry] = entryArr;
         }
     });
-    console.log(jsExtract);
     map['lib'] = ['react'];
     map['vender'] = ['jquery'];
     return map;

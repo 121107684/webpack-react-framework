@@ -25,18 +25,20 @@ var postcssImport = require('postcss-import');
 var jsExtract = [];
 
 //获取本级IP 以方便手机端测试使用
-function getIPAdress(){  
-    var interfaces = require('os').networkInterfaces();  
-    for(var devName in interfaces){  
-          var iface = interfaces[devName];  
-          for(var i=0;i<iface.length;i++){  
-               var alias = iface[i];  
-               if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){  
-                     return alias.address;  
-               }  
-          }  
-    }  
-}  
+function getIPAdress() {
+    var interfaces = require('os').networkInterfaces();
+    for (var devName in interfaces) {
+        var iface = interfaces[devName];
+        for (var i = 0; i < iface.length; i++) {
+            var alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                return alias.address;
+            } else {
+                return '127.0.0.1';
+            }
+        }
+    }
+}
 
 //加载webpack目录参数配置
 var config = {
@@ -45,7 +47,7 @@ var config = {
     output: {
         path: path.join(__dirname, 'assets'),
         filename: 'dist/js/[name].js',
-        publicPath: 'http://'+getIPAdress()+':3000/'
+        publicPath: 'http://' + getIPAdress() + ':3000/'
     },
     plugins: [
         //排除css压缩加载在页面

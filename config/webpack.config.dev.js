@@ -24,26 +24,36 @@ var postcssImport = require('postcss-import');
 //排除的页面入口js
 var jsExtract = [];
 
+//获取本级IP 以方便手机端测试使用
+function getIPAdress() {
+    var interfaces = require('os').networkInterfaces();
+    for (var devName in interfaces) {
+        var iface = interfaces[devName];
+        for (var i = 0; i < iface.length; i++) {
+            var alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                return alias.address;
+            }
+        }
+    }
+}
+
 //加载webpack目录参数配置
 var config = {
-    devtool: 'source-map',
+    devtool: 'cheap-module-eval-source-map',
     entry: getEntry(),
     output: {
-        path: path.join(__dirname, 'assets'),
+        path: path.join(process.cwd(), 'assets'),
         filename: 'dist/js/[name].js',
-        publicPath: ''
+        publicPath: 'http://' + getIPAdress() + ':5000/'
     },
     plugins: [
         //排除css压缩加载在页面
         new ExtractTextPlugin('dist/css/[name].css'),
         //合并额外的js包
         new CommonsChunkPlugin('lib', './dist/js/lib.js', jsExtract),
-        //new webpack.optimize.CommonsChunkPlugin('lib', './dist/js/lib.js'),
-        new webpack.optimize.UglifyJsPlugin({
-            compressor: {
-                warnings: false
-            }
-        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery'
         })
@@ -52,20 +62,28 @@ var config = {
         //加载器配置
         loaders: [{
             test: /\.css$/,
-            exclude: path.resolve(__dirname, 'src/dist/css/common'),
-            loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
+            exclude: path.resolve(process.cwd(), 'src/dist/css/common'),
+            loaders: [
+                'style-loader',
+                'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]&sourceMap&importLoaders=1',
+                'postcss-loader?sourceMap=true'
+            ]
         }, {
             test: /\.css$/,
-            include: path.resolve(__dirname, 'src/dist/css/common'),
-            loader: ExtractTextPlugin.extract('style', 'css!postcss-loader')
+            include: path.resolve(process.cwd(), 'src/dist/css/common'),
+            loaders: [
+                'style-loader',
+                'css-loader?sourceMap&importLoaders=1',
+                'postcss-loader?sourceMap=true'
+            ]
         }, {
             test: /\.js$/,
-            loaders: ['babel'],
+            loaders: ['react-hot', 'babel'],
             exclude: /node_modules/, // 匹配不希望处理文件的路径
-            include: path.join(__dirname, 'src')
+            include: path.join(process.cwd(), 'src')
         }, {
             test: /\.(png|jpeg|jpg|gif)$/,
-            loader: 'file?name=../img/[name].[ext]&to=dist/img/[name].[ext]'
+            loader: 'file?name=dist/img/[name].[ext]'
         }, {
             test: /\.(woff|eot|ttf)$/i,
             loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
@@ -95,9 +113,14 @@ function getEntry() {
         var m = name.match(/(.+)\.js$/);
         var entry = m ? m[1] : '';
         var entryPath = entry ? path.resolve(jsDir, name) : '';
+        var entryArr = [];
+        entryArr.push(entryPath);
+        entryArr.push('eventsource-polyfill');
+        entryArr.push('webpack-hot-middleware/client');
+        jsExtract.push(name);
         if (entry) {
             jsExtract.push(name.substring(0, name.length - 3));
-            map[entry] = entryPath;
+            map[entry] = entryArr;
         }
     });
     //自定义额外加载包,不会合并在页面对应js中

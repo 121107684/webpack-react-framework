@@ -18,44 +18,32 @@ var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 //加载公用组件插件
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 //设置需要排除单独打包的插件
-var singleModule = ['react', 'react-dom', 'jquery'];
+var singleModule = ['react', 'react-dom', 'jquery', 'Raphael'];
 //postcss辅助插件
 var postcssImport = require('postcss-import');
 //排除的页面入口js
 var jsExtract = [];
 
-//获取本级IP 以方便手机端测试使用
-function getIPAdress() {
-    var interfaces = require('os').networkInterfaces();
-    for (var devName in interfaces) {
-        var iface = interfaces[devName];
-        for (var i = 0; i < iface.length; i++) {
-            var alias = iface[i];
-            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-                return alias.address;
-            } else {
-                return '127.0.0.1';
-            }
-        }
-    }
-}
-
 //加载webpack目录参数配置
 var config = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'source-map',
     entry: getEntry(),
     output: {
-        path: path.join(__dirname, 'assets'),
+        path: path.join(process.cwd(), 'assets'),
         filename: 'dist/js/[name].js',
-        publicPath: 'http://' + getIPAdress() + ':3000/'
+        publicPath: ''
     },
     plugins: [
         //排除css压缩加载在页面
         new ExtractTextPlugin('dist/css/[name].css'),
         //合并额外的js包
         new CommonsChunkPlugin('lib', './dist/js/lib.js', jsExtract),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        //new webpack.optimize.CommonsChunkPlugin('lib', './dist/js/lib.js'),
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                warnings: false
+            }
+        }),
         new webpack.ProvidePlugin({
             $: 'jquery'
         })
@@ -64,28 +52,20 @@ var config = {
         //加载器配置
         loaders: [{
             test: /\.css$/,
-            exclude: path.resolve(__dirname, 'src/dist/css/common'),
-            loaders: [
-                'style-loader',
-                'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]&sourceMap&importLoaders=1',
-                'postcss-loader?sourceMap=true'
-            ]
+            exclude: path.resolve(process.cwd(), 'src/dist/css/common'),
+            loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
         }, {
             test: /\.css$/,
-            include: path.resolve(__dirname, 'src/dist/css/common'),
-            loaders: [
-                'style-loader',
-                'css-loader?sourceMap&importLoaders=1',
-                'postcss-loader?sourceMap=true'
-            ]
+            include: path.resolve(process.cwd(), 'src/dist/css/common'),
+            loader: ExtractTextPlugin.extract('style', 'css!postcss-loader')
         }, {
             test: /\.js$/,
-            loaders: ['react-hot', 'babel'],
+            loaders: ['babel'],
             exclude: /node_modules/, // 匹配不希望处理文件的路径
-            include: path.join(__dirname, 'src')
+            include: path.join(process.cwd(), 'src')
         }, {
             test: /\.(png|jpeg|jpg|gif)$/,
-            loader: 'file?name=dist/img/[name].[ext]'
+            loader: 'file?name=../img/[name].[ext]&to=dist/img/[name].[ext]'
         }, {
             test: /\.(woff|eot|ttf)$/i,
             loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
@@ -115,14 +95,9 @@ function getEntry() {
         var m = name.match(/(.+)\.js$/);
         var entry = m ? m[1] : '';
         var entryPath = entry ? path.resolve(jsDir, name) : '';
-        var entryArr = [];
-        entryArr.push(entryPath);
-        entryArr.push('eventsource-polyfill');
-        entryArr.push('webpack-hot-middleware/client');
-        jsExtract.push(name);
         if (entry) {
             jsExtract.push(name.substring(0, name.length - 3));
-            map[entry] = entryArr;
+            map[entry] = entryPath;
         }
     });
     //自定义额外加载包,不会合并在页面对应js中

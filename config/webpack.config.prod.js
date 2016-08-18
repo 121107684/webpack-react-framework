@@ -81,7 +81,11 @@ var config = {
             }),
             require('postcss-display-inline-block'),
             require('autoprefixer'),
-            require('precss')
+            require('precss'),
+            require('postcss-easysprites')({
+                imagePath: '../img',
+                spritePath: './assets/dist/img'
+            })
         ];
     }
 };

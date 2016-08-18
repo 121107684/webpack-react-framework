@@ -19,8 +19,6 @@ var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 //设置需要排除单独打包的插件
 var singleModule = ['react', 'react-dom', 'jquery', 'Raphael'];
-//postcss辅助插件
-var postcssImport = require('postcss-import');
 //排除的页面入口js
 var jsExtract = [];
 
@@ -93,14 +91,20 @@ var config = {
         }]
     },
     postcss: function(webpack) {
-        return [
-            postcssImport({
-                addDependencyTo: webpack
-            }),
-            require('postcss-display-inline-block'),
-            require('autoprefixer'),
-            require('precss')
-        ];
+        return {
+            plugins: [
+                require('postcss-import')({
+                    addDependencyTo: webpack
+                }),
+                require('postcss-display-inline-block'),
+                require('autoprefixer'),
+                require('precss'),
+                require('postcss-easysprites')({
+                    imagePath: '../img',
+                    spritePath: './assets/dist/img'
+                })
+            ]
+        };
     }
 };
 

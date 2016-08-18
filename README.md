@@ -1,17 +1,18 @@
-# Webpack+React Rest Frameset 
+# Webpack+React集成环境框架
 
 一个完善的Webpack+React集成环境,支持模块热加载和Css热加载效果,并支持多页面入口的Webpack打包,并附加完整的config配置文件注释,可以方便的修改环境及配置
-
 
 ##使用的技术
 
 - [x] [Webpack](https://webpack.github.io)
 - [x] [React](https://facebook.github.io/react/)
 - [x] [Babel](https://babeljs.io/)
+- [x] [Koa](https://github.com/koajs/koa)
 - [x] [PostCSS](https://github.com/postcss/postcss)
-- [x] [CSS modules](https://github.com/outpunk/postcss-modules)
 - [x] [precss](https://github.com/jonathantneal/precss)
+- [x] [CSS modules](https://github.com/outpunk/postcss-modules)
 - [x] [autoprefixer](https://github.com/postcss/autoprefixer)
+- [x] [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard)
 
 ## 安装方法
 
@@ -37,7 +38,7 @@ npm run build
 
 ## 增加控制台
 
-![IMG](./MdIMG/1.png)
+![IMG](./README/1.png)
 
 # License 
 

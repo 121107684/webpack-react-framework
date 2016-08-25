@@ -9,18 +9,18 @@ body {
         font-size: 18px;
     }
     .icon1 {
-        background: url(../img/sprites/navIcon1.png#el1);
+        background: url(../img/icons/navIcon1.png#el1);
     }
     .icon2 {
-        background: url(../img/sprites/navIcon2.png#el1);
+        background: url(../img/icons/navIcon2.png#el1);
     }
     .icon3 {
-        background: url(../img/sprites/navIcon3.png#el2);
+        background: url(../img/icons/navIcon3.png#el2);
     }
     .icon4 {
-        background: url(../img/sprites/navIcon4.png#el2);
+        background: url(../img/icons/navIcon4.png#el2);
     }
     .icon5 {
-        background: url(../img/sprites/navIcon5.png#el2);
+        background: url(../img/icons/navIcon5.png#el2);
     }
 }

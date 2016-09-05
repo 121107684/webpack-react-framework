@@ -1,6 +1,12 @@
 # Webpack+React集成环境框架
 
+[![Build Status](https://travis-ci.org/greengerong/qing.png?branch=master)](https://travis-ci.org/greengerong/qing)
+
 一个完善的Webpack+React集成环境,支持模块热加载和Css热加载效果,并支持多页面入口的Webpack打包,并附加完整的config配置文件注释,可以方便的修改环境及配置
+
+##更新记录
+
+- [CHANGELOG](https://github.com/aemoe/webpack-react-framework/blob/master/CHANGELOG.md)
 
 ##使用的技术
 

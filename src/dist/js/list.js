@@ -15,8 +15,8 @@ class ListDemo extends Component {
                 {/*普通的标题文本列表*/}
                 <ListTitle >普通ds的标题列表</ListTitle>
                 <Lists>
-                    <List>asdasd</List>
-                    <List>asdasd</List>
+                    <List>测试文字</List>
+                    <List>测试文字</List>
                 </Lists>
                 {/*带链接跳转的文本列表*/}
                 <ListTitle>普通的标题列表</ListTitle>

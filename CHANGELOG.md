@@ -1,3 +1,12 @@
+## 1.0.2 (2016-09-13)
+
+Update:
+
+  - Add a listview demo,and update Readme
+
+  - 增加了一个列表实例,并优化补充了Readme
+
+
 ## 1.0.1 (2016-09-05)
 
 Update:

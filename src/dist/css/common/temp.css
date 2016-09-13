@@ -1,9 +1,0 @@
-body {
-    background: url(../../img/bg.jpg) center top;
-    background-size: cover;
-    background-attachment: fixed;
-}
-
-.fr {
-    float: right;
-}

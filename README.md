@@ -11,7 +11,7 @@
 - 分为开发环境(Dev)和上线(Prod)环境,可以自由选择并进行开发
 - 支持React热加载,可以实现CSS及JS的热加载效果
 - 附加Postcss工具,可实现Sass语法开发,自动填充CSS3兼容方案及CSS雪碧图的自动化构建
-- 使用了CSS-Module技术,实现了样式的复用性和解决了样式污染
+- 使用了CSS-Module技术,实现了样式的复用性和解决了样式污染**(在dist/css/common和dist/css/components中的样式不会启用CSS-Module**
 
 ##使用的技术
 

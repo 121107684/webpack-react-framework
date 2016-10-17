@@ -8,7 +8,7 @@ export default class ListContent extends Component {
     render() {
         const { className, children, ...others } = this.props;
         const style = classNames({
-            mfui_list_content: true,
+            mfui_panel_content: true,
             [className]: className
         });
         return (

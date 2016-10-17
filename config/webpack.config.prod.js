@@ -52,11 +52,11 @@ var config = {
         //加载器配置
         loaders: [{
             test: /\.css$/,
-            exclude: path.resolve(process.cwd(), 'src/dist/css/common'),
+            exclude: [path.resolve(process.cwd(), 'src/dist/css/common'), path.resolve(process.cwd(), 'src/dist/css/components')],
             loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
         }, {
             test: /\.css$/,
-            include: path.resolve(process.cwd(), 'src/dist/css/common'),
+            include: [path.resolve(process.cwd(), 'src/dist/css/common'), path.resolve(process.cwd(), 'src/dist/css/components')],
             loader: ExtractTextPlugin.extract('style', 'css!postcss-loader')
         }, {
             test: /\.js$/,

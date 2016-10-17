@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import Viewport from '../../lib/viewport.js';
 import Style from '../../../css/components/style.css';
 
-export default class ListContent extends Component {
+export default class PanelTitle extends Component {
     render() {
         const { className, children, ...others } = this.props;
         const style = classNames({
-            mfui_list_content: true,
+            mfui_panel_title: true,
             [className]: className
         });
         return (

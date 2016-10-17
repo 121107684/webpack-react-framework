@@ -4,18 +4,17 @@ import classNames from 'classnames';
 import Viewport from '../../lib/viewport.js';
 import Style from '../../../css/components/style.css';
 
-export default class Radio extends Component {
+export default class Checkbox extends Component {
     render() {
         const { className, ...others } = this.props;
-        console.log(...others);
         const cls = classNames({
-            mfui_radio: true,
+            mfui_check: true,
             [className]: className
         });
         return (
             <div>
-                <input className={cls} type="radio" {...others}/>
-                <span className="mfui_icon_radiobox"></span>
+                <input className={cls} type="checkbox" {...others}/>
+                <i className="mfui_icon_checked"></i>
             </div>
         );
     }

@@ -1,10 +1,10 @@
-/*手机列表头*/
+/*手机按钮样式*/
 
 .mfui_list_title {
     margin-top: .77rem;
     margin-bottom: .3rem;
-    padding-left: 0.7rem;
-    padding-right: 0.7rem;
+    padding-left: 15px;
+    padding-right: 15px;
     color: #888;
     font-size: 14px;
 }
@@ -112,4 +112,29 @@
     top: -2px;
     top: -1px;
     margin-left: .3em;
+}
+
+.mfui_list_icon {
+    padding-right: .3em;
+}
+
+.mfui_vcode {
+    padding: 0 0 0 15px;
+}
+
+.mfui_vcode .mfui_list_other img {
+    margin-left: 5px;
+    height: 44px;
+    vertical-align: middle;
+}
+
+.mfui_cell_warn {
+    color: #e64340;
+}
+
+.mfui_panel_title {
+    padding: 3px 0;
+    color: #999;
+    font-size: 13px;
+    position: relative;
 }

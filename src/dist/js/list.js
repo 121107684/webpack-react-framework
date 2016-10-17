@@ -5,18 +5,18 @@ import form from './components/form/';
 
 import iconSrc from './../img/icons/icon_right.png';
 
-const { ListTitle, Lists, List, ListContent, ListOther, ListIcon } = list;
-const { Radio } = form;
+const { ListTitle, Lists, List, ListContent, ListOther, ListIcon, PanelTitle } = list;
+const { Radio, Checkbox, Switch } = form;
 
 class ListDemo extends Component {
     render() {
         return (
             <div>
                 {/*普通的标题文本列表*/}
-                <ListTitle >普通ds的标题列表</ListTitle>
+                <ListTitle >普通的标题列表</ListTitle>
                 <Lists>
-                    <List>测试文字</List>
-                    <List>测试文字</List>
+                    <List>asdasd</List>
+                    <List>asdasd</List>
                 </Lists>
                 {/*带链接跳转的文本列表*/}
                 <ListTitle>普通的标题列表</ListTitle>
@@ -66,7 +66,7 @@ class ListDemo extends Component {
                     <List>
                         <ListContent>左侧文字</ListContent>
                         <ListOther>
-                            <Radio name="radio1" value="1"/>
+                            <Radio name="radio1" value="1" defaultChecked/>
                         </ListOther>
                     </List>
                     <List>
@@ -76,7 +76,48 @@ class ListDemo extends Component {
                         </ListOther>
                     </List>
                 </Lists>
-                
+
+                {/*多选列表*/}
+                <ListTitle>多选列表</ListTitle>
+                <Lists>
+                    <List>
+                        <ListIcon>
+                            <Checkbox name="checkbox1" value="1"/>
+                        </ListIcon>
+                        <ListContent>左侧文字</ListContent>
+                    </List>
+                    <List>
+                        <ListIcon>
+                            <Checkbox name="checkbox1" value="1"/>
+                        </ListIcon>
+                        <ListContent>左侧文字</ListContent>
+                    </List>
+                </Lists>
+
+                {/*开关*/}
+                <ListTitle>开关</ListTitle>
+                <Lists>
+                    <List>
+                        <ListContent>左侧文字</ListContent>
+                        <ListOther>
+                            <Switch/>
+                        </ListOther>
+                    </List>
+                </Lists>
+
+                {/*文字组合列表*/}
+                <ListTitle>文字组合列表</ListTitle>
+                <Lists>
+                    <List>
+                       <PanelTitle>左侧文字</PanelTitle>
+                    </List>
+                    <List>
+                        <ListContent>
+                            
+                        </ListContent>
+                    </List>
+                </Lists>
+
             </div>
 
         );

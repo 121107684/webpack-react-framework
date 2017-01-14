@@ -1,3 +1,12 @@
+## 1.0.4 (2017-1-14)
+
+Update:
+
+  - Fixed a bug that the error info can not show in terminal
+
+  - 修复了一个bug,错误信息无法显示在控制台上的问题
+
+
 ## 1.0.3 (2016-10-17)
 
 Update:
@@ -25,5 +34,3 @@ Update:
 
   - 修改了.babelrc的配置
   为了让系统支持ES7的扩展方法,增加2个bable的插件
-
-

@@ -6,8 +6,8 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('koa-webpack-dev-middleware');
 const webpackHotMiddleware = require('koa-webpack-hot-middleware');
 //加载webpack-dashboard监控视窗模块
-const Dashboard = require('webpack-dashboard');
-const DashboardPlugin = require('webpack-dashboard/plugin');
+// const Dashboard = require('webpack-dashboard');
+// const DashboardPlugin = require('webpack-dashboard/plugin');
 //加载webpack配置文件
 const config = require('./webpack.config.dev');
 //加载koa服务器模块
@@ -20,12 +20,12 @@ var creatServer = () => {
     //初始化webpack应用
     let compiler = webpack(config);
     //初始化webpack-dashboard应用
-    let dashboard = new Dashboard();
+    //let dashboard = new Dashboard();
     //调用webpack-dashboard应用
-    compiler.apply(new DashboardPlugin(dashboard.setData));
+    //compiler.apply(new DashboardPlugin(dashboard.setData));
     //调用webpack热加载模块及对应参数
     app.use(webpackDevMiddleware(compiler, {
-        quiet: true,
+        //quiet: true,
         noInfo: true,
         publicPath: config.output.publicPath,
         hot: true,
@@ -41,7 +41,9 @@ var creatServer = () => {
     app.use(require('koa-serve-index')(path.join(process.cwd(), '/src')));
     //调用开启5000端口用来测试和开发
     app.listen(5000, function(err) {
-        if (err) { console.log(err); }
+        if (err) {
+            console.log(err);
+        }
         console.log('Listening at localhost:5000');
     });
 };

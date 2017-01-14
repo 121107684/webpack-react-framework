@@ -47,14 +47,14 @@ class ListDemo extends Component {
                 <Lists>
                     <List>
                         <ListIcon>
-                            <img src={iconSrc} alt="" style={{display: `block`, width: `20px`, marginRight: `5px`}}/>
+                            <img src={iconSrc} alt="" style={{display: 'block', width: '20px', marginRight: '5px'}}/>
                         </ListIcon>
                         <ListContent>左侧文字</ListContent>
                         <ListOther>右侧文字</ListOther>
                     </List>
                     <List>
                         <ListIcon>
-                            <img src={iconSrc} alt="" style={{display: `block`, width: `20px`, marginRight: `5px`}}/>
+                            <img src={iconSrc} alt="" style={{display: 'block', width: '20px', marginRight: '5px'}}/>
                         </ListIcon>
                         <ListContent>左侧文字</ListContent>
                         <ListOther>右侧文字</ListOther>
@@ -113,7 +113,7 @@ class ListDemo extends Component {
                     </List>
                     <List>
                         <ListContent>
-                            
+
                         </ListContent>
                     </List>
                 </Lists>

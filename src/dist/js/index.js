@@ -36,7 +36,7 @@ class About extends Component {
 }
 
 render((
-    <Router history={hashHistory}>
+    <Router history={browserHistory}>
         <Route path="/" component={App}/>
 	  	<Route path="/repos" component={Repos}/>
 	  	<Route path="/about" component={About}/>

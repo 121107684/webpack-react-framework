@@ -1,133 +1,189 @@
-'use strict';
+/**
+  加载常用模块及Webpack需要的模块组件
+**/
 //加载Node的Path模块
-var path = require('path');
+const path = require('path');
 //加载Node的fs模块
-var fs = require('fs');
+const fs = require('fs');
+//Node遍历文件插件
+const glob = require('glob');
 //加载webpack模块
-var webpack = require('webpack');
-//srcDir为当前开发目录(/src)
-var srcDir = path.resolve(process.cwd(), 'src');
-//srcDir为当前建立目录(/assets)
-var assetsDir = path.resolve(process.cwd(), 'assets');
+const webpack = require('webpack');
 //加载自动化css独立加载插件
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 //加载自动化HTML自动化编译插件
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 //加载JS模块压缩编译插件
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 //加载公用组件插件
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+
+/**
+  设置默认常用路径
+**/
+//srcDir为当前开发目录(默认:/src)
+const srcDir = path.resolve(process.cwd(), 'src');
+//assetsDir为当前建立目录(默认:/assets)
+const assetsDir = path.resolve(process.cwd(), 'assets');
+//读取入口的js文件目录(本目录只能对应页面的入口的JS,其他脚本需要写在/dist/plugins中)
+const jsEntryDir = path.resolve(srcDir, 'dist/js');
+//生成JS的目录地址(默认:)
+const jsDir = 'dist/js/';
+//生成css的目录地址(默认:)
+const cssDir = 'dist/css/';
+
+/**
+  设置默认模块依赖及是否合并打包等设置
+**/
 //设置需要排除单独打包的插件
-var singleModule = ['react', 'react-dom', 'jquery', 'Raphael'];
-//postcss辅助插件
-var postcssImport = require('postcss-import');
-//排除的页面入口js
-var jsExtract = [];
+const singleModule = ['react', 'react-dom', 'jquery', 'Raphael'];
+//是否合并打包其他组件模块
+const libMerge = true;
+//需要全局使用的组件,比如jquery,lodash等
+const globalValue = {
+    $: 'jquery'
+};
+//设置不需要使用的css目录
+const excludeCss = ['dist/css/common', 'dist/css/components'];
+
 
 //加载webpack目录参数配置
-var config = {
-    devtool: 'source-map',
+let config = {
+    //开启source_map,可选择删除
+    // devtool: 'source-map',
+    //自动获取并生成入口,获取的目录路径为./src/dist/js,可以自行修改
     entry: getEntry(),
+    //输出位置为./assests
     output: {
         path: path.join(process.cwd(), 'assets'),
-        filename: 'dist/js/[name].js',
-        publicPath: ''
+        filename: jsDir + '[name].js',
+        publicPath: '/'
     },
     plugins: [
         //排除css压缩加载在页面
-        new ExtractTextPlugin('dist/css/[name].css'),
-        //合并额外的js包
-        new CommonsChunkPlugin('lib', './dist/js/lib.js', jsExtract),
-        //new webpack.optimize.CommonsChunkPlugin('lib', './dist/js/lib.js'),
+        new ExtractTextPlugin(cssDir + '[name].css'),
+        //合并额外的js包(暂时无用)
+        // new CommonsChunkPlugin('lib', './dist/js/lib.js', jsExtract),
+        //开启热加载模式
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+        //设置全局使用的变量
+        new webpack.ProvidePlugin(globalValue),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
                 warnings: false
             }
-        }),
-        new webpack.ProvidePlugin({
-            $: 'jquery'
         })
     ],
     module: {
         //加载器配置
-        loaders: [{
-            test: /\.css$/,
-            exclude: [path.resolve(process.cwd(), 'src/dist/css/common'), path.resolve(process.cwd(), 'src/dist/css/components')],
-            loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader')
-        }, {
-            test: /\.css$/,
-            include: [path.resolve(process.cwd(), 'src/dist/css/common'), path.resolve(process.cwd(), 'src/dist/css/components')],
-            loader: ExtractTextPlugin.extract('style', 'css!postcss-loader')
-        }, {
-            test: /\.js$/,
-            loaders: ['babel'],
-            exclude: /node_modules/, // 匹配不希望处理文件的路径
-            include: path.join(process.cwd(), 'src')
-        }, {
-            test: /\.(png|jpeg|jpg|gif)$/,
-            loader: 'file?name=../img/[name].[ext]&to=dist/img/[name].[ext]'
-        }, {
-            test: /\.(woff|eot|ttf)$/i,
-            loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
-        }, {
-            test: /\.json$/,
-            loader: 'json'
-        }]
+        loaders: [
+            //css加载器 排除不需要加css-modules的css部分
+            {
+                test: /\.css$/,
+                exclude: getExcludeCss(),
+                loaders: [
+                    'style-loader',
+                    'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]&sourceMap&importLoaders=1',
+                    'postcss-loader?sourceMap=true'
+                ]
+            },
+            //css加载器 设置需要加ss-modules的css部分
+            {
+                test: /\.css$/,
+                include: getExcludeCss(),
+                loaders: [
+                    'style-loader',
+                    'css-loader?sourceMap&importLoaders=1',
+                    'postcss-loader?sourceMap=true'
+                ]
+            }, {
+                test: /\.js$/,
+                loaders: ['react-hot', 'babel'],
+                exclude: /node_modules/, // 匹配不希望处理文件的路径
+                include: path.join(process.cwd(), 'src')
+            }, {
+                test: /\.(png|jpeg|jpg|gif)$/,
+                loader: 'file?name=dist/img/[name].[ext]'
+            }, {
+                test: /\.(woff|eot|ttf)$/i,
+                loader: 'url?limit=10000&name=dist/fonts/[name].[ext]'
+            }, {
+                test: /\.json$/,
+                loader: 'json'
+            }
+        ]
     },
     postcss: function(webpack) {
-        return [
-            postcssImport({
-                addDependencyTo: webpack
-            }),
-            require('postcss-display-inline-block'),
-            require('autoprefixer'),
-            require('precss'),
-            require('postcss-easysprites')({
-                imagePath: '../img',
-                spritePath: './assets/dist/img'
-            })
-        ];
+        return {
+            plugins: [
+                require('postcss-import')({
+                    addDependencyTo: webpack
+                }),
+                require('postcss-display-inline-block'),
+                require('autoprefixer'),
+                require('precss'),
+                require('postcss-easysprites')({
+                    imagePath: '../img',
+                    spritePath: './assets/dist/img'
+                })
+            ]
+        };
     }
 };
-
+//设置排出的css路径
+function getExcludeCss() {
+    var cssArr = [];
+    excludeCss.forEach(function(paths) {
+        cssArr.push(path.resolve(srcDir, paths));
+    });
+    return cssArr;
+}
 //设置入口文件
 function getEntry() {
-    var jsDir = path.resolve(srcDir, 'dist/js');
-    var names = fs.readdirSync(jsDir);
+    var entrys = glob.sync(path.resolve(jsEntryDir, '**/*.js'));
     var map = {};
-    names.forEach(function(name) {
-        var m = name.match(/(.+)\.js$/);
-        var entry = m ? m[1] : '';
-        var entryPath = entry ? path.resolve(jsDir, name) : '';
+    entrys.forEach(function(entry) {
         if (entry) {
-            jsExtract.push(name.substring(0, name.length - 3));
-            map[entry] = entryPath;
+            var path = entry.replace(jsEntryDir + '/', '');
+            var entryName = path.substring(0, path.length - 3);
+            map[entryName] = entry;
         }
     });
     //自定义额外加载包,不会合并在页面对应js中
-    map['lib'] = singleModule;
+    if (libMerge) {
+        map['lib'] = singleModule;
+    } else {
+        singleModule.forEach(function(libName) {
+            map[libName] = [libName];
+        });
+    }
     return map;
 }
 
-var pages = fs.readdirSync(srcDir);
-pages.forEach(function(filename) {
+var files = glob.sync(path.resolve(srcDir, '**/*.html'));
+files.forEach(function(filename) {
     var m = filename.match(/(.+)\.html$/);
     if (m) {
         var conf = {
-            template: path.resolve(srcDir, filename),
+            template: filename,
             inject: true, //允许插件修改哪些内容，包括head与body
             hash: true, //为静态资源生成hash值
             minify: { //压缩HTML文件
                 removeComments: true, //移除HTML中的注释
                 collapseWhitespace: false //删除空白符与换行符
             },
-            filename: filename
+            filename: filename.replace(srcDir, assetsDir)
         };
+        var vendor = m[1].replace(srcDir + '/', '');
+        if (vendor in config.entry) {
+            if (libMerge) {
+                conf.chunks = ['lib', vendor];
+            } else {
+                conf.chunks = [vendor].concat(singleModule);
+            }
 
-        if (m[1] in config.entry) {
-            conf.chunks = ['vendors', m[1]];
         }
-
         config.plugins.push(new HtmlWebpackPlugin(conf));
     }
 });

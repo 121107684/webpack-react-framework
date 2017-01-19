@@ -1,3 +1,11 @@
+## 1.1.0 (2017-1-19)
+
+Update:
+
+  - Added multi-dir supporting , added user customize paths option and added some other options
+
+  - 增加了多文件夹支持及增加了自定义路径及部分配置参数
+
 ## 1.0.4 (2017-1-14)
 
 Update:

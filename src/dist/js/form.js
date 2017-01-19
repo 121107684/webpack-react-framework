@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM, { render } from 'react-dom';
-import list from './components/list/';
-import form from './components/form/';
+import list from '../plugins/components/list/';
+import form from '../plugins/components/form/';
 
 import vsCode from './../img/vcode.jpg';
 

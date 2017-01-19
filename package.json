@@ -7,7 +7,7 @@
         "build:webpack": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.prod.js",
         "build": "npm run clean && npm run build:webpack",
         "start": "node ./config/devServer.js",
-        "lint": "eslint src",
+        "lint": "eslint ./src",
         "test": ""
     },
     "repository": {},
@@ -15,7 +15,7 @@
         "webpack",
         "reactjs"
     ],
-    "author": "AeMoE",
+    "author": "aemoe",
     "license": "MIT",
     "devDependencies": {
         "autoprefixer": "^6.3.6",
@@ -45,6 +45,7 @@
         "koa-views": "^4.1.0",
         "koa-webpack-dev-middleware": "^1.2.1",
         "koa-webpack-hot-middleware": "^1.0.3",
+        "lodash": "^4.17.4",
         "postcss": "^5.1.2",
         "postcss-display-inline-block": "^1.0.0",
         "postcss-easysprites": "^0.1.7",

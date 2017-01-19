@@ -1,7 +1,6 @@
 /*手机按钮样式*/
 
-button.mfui_btn,
-input.mfui_btn {
+button.mfui_btn, input.mfui_btn {
     width: 100%;
     border-width: 0;
     outline: 0;
@@ -88,8 +87,7 @@ input.mfui_btn {
     border-width: 0;
 }
 
-button.mfui_btn_plain_primary,
-input.mfui_btn_plain_primary {
+button.mfui_btn_plain_primary, input.mfui_btn_plain_primary {
     border-width: 1px;
     background-color: transparent
 }
@@ -103,8 +101,7 @@ input.mfui_btn_plain_primary {
     border-width: 0;
 }
 
-button.mfui_btn_plain_default,
-input.mfui_btn_plain_default {
+button.mfui_btn_plain_default, input.mfui_btn_plain_default {
     border-width: 1px;
     background-color: transparent
 }
@@ -131,9 +128,6 @@ input.mfui_btn_plain_default {
     display: inline-block;
 }
 
-button.mfui_btn_inline,
-button.mfui_btn_mini,
-input.mfui_btn_inline,
-input.mfui_btn_mini {
+button.mfui_btn_inline, button.mfui_btn_mini, input.mfui_btn_inline, input.mfui_btn_mini {
     width: auto;
 }

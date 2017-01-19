@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM, { render } from 'react-dom';
-import button from './components/button/';
-import icon from './components/icon/';
+import button from '../plugins/components/button/';
+import icon from '../plugins/components/icon/';
 
 const { Button, ButtonArea } = button;
 const { Icon } = icon;

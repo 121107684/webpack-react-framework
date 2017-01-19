@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM, { render } from 'react-dom';
-import icon from './components/icon/';
+import icon from '../plugins/components/icon/';
 
 const { Icon } = icon;
 

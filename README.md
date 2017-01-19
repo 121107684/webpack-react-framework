@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/greengerong/qing.png?branch=master)](https://travis-ci.org/greengerong/qing)
 
-一个完善的Koa+Webpack+React集成开发环境,实现了多页面应用入口,并附加很多实用组件
+一个完善的Koa+Webpack+React集^^成开发环境,实现了多页面应用入口,并附加很多实用组件
 
 ## 框架优点
 
@@ -25,6 +25,25 @@
 - [x] [autoprefixer](https://github.com/postcss/autoprefixer)
 - [x] [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard)
 
+## 目录结构
+**开发目录结构:**
+```
+├── dist  //资源文件目录
+    ├── css //存放css文件
+    │   ├── components //存放组件相关的css
+ 		│		└── common //存放公用的css文件
+    ├── data //存放临时数据文件
+    ├── img //存放图片目录
+    ├── js  //存放所有入口的js文件(不要防止其他js)
+    ├── plugins //存放其他非入口的js
+    │   ├── components //存放组件相关的js
+    │   └── lib //存放组件相关的js
+    ├── scss //存放scss文件
+    │   └── components
+    └── tmpl //存放模板文件
+```
+
+
 ## 使用方法
 **1.安装所需NodeJS模块**
 
@@ -40,20 +59,57 @@ npm install
 
 ![IMG](./README/1.png)
 
-**3.开启热加载开发模式**
+**3.设置相关配置参数**
+
+在./config文件夹中设置webpack.config.dev.js和webpack.config.prod.js文件中的配置
+
+```js
+/**
+  设置默认常用路径
+**/
+//srcDir为当前开发目录(默认:/src)
+const srcDir = path.resolve(process.cwd(), 'src');
+//assetsDir为当前建立目录(默认:/assets)
+const assetsDir = path.resolve(process.cwd(), 'assets');
+//读取入口的js文件目录(本目录只能对应页面的入口的JS,其他脚本需要写在/dist/plugins中)
+const jsEntryDir = path.resolve(srcDir, 'dist/js');
+//生成JS的目录地址(默认:)
+const jsDir = 'dist/js/';
+//生成css的目录地址(默认:)
+const cssDir = 'dist/css/';
+
+/**
+  设置默认模块依赖及是否合并打包等设置
+**/
+//设置需要排除单独打包的插件
+const singleModule = ['react', 'react-dom', 'jquery', 'Raphael'];
+//是否合并打包其他组件模块
+const libMerge = true;
+//需要全局使用的组件,比如jquery,lodash等
+const globalValue = {
+    $: 'jquery'
+};
+//设置不需要使用的css目录
+const excludeCss = ['dist/css/common', 'dist/css/components'];
+```
+
+
+**4.开启热加载开发模式**
 
 进入你该项目文件夹,并在CMD/终端中执行命令开启开发模式,这时候会显示一个控制台,能够看到项目对应的反馈信息及问题
 
 ```
 npm start
 ```
-**4.项目完成后进行打包压缩**
+**5.项目完成后进行打包压缩**
 
 进入你该项目文件夹,并在CMD/终端中执行命令执行打包压缩,会在根目录生成一个assets的文件夹,文件夹内为压缩后的项目代码
 
 ```
-npm run build 
+npm run build
 ```
+
+
 
 ## 其他框架特性内容介绍
 
@@ -104,20 +160,20 @@ npm run build
 
 /* after */
 
-.arrowNext { 
-  background-image: url(dist/img/elements.png); 
+.arrowNext {
+  background-image: url(dist/img/elements.png);
   background-position: 0 0;
 }
-.arrowNext:hover { 
-  background-image: url(dist/img/elements.png); 
+.arrowNext:hover {
+  background-image: url(dist/img/elements.png);
   background-position: -28px 0;
 }
-.arrowPrev { 
-  background-image: url(dist/img/elements2.png); 
+.arrowPrev {
+  background-image: url(dist/img/elements2.png);
   background-position: 0 0;
 }
-.arrowPrev:hover { 
-  background-image: url(dist/img/elements2.png); 
+.arrowPrev:hover {
+  background-image: url(dist/img/elements2.png);
   background-position: -28px 0;
 }
 ```
@@ -125,7 +181,6 @@ npm run build
 
 - [CHANGELOG](https://github.com/aemoe/webpack-react-framework/blob/master/CHANGELOG.md)
 
-# License 
+# License
 
 MIT
-

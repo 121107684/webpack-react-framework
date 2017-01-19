@@ -1,12 +1,20 @@
-import React, { Component } from 'react';
-import ReactDOM, { render } from 'react-dom';
-import list from './components/list/';
-import form from './components/form/';
+import React, {Component} from 'react';
+import ReactDOM, {render} from 'react-dom';
+import list from '../plugins/components/list/';
+import form from '../plugins/components/form/';
 
 import iconSrc from './../img/icons/icon_right.png';
 
-const { ListTitle, Lists, List, ListContent, ListOther, ListIcon, PanelTitle } = list;
-const { Radio, Checkbox, Switch } = form;
+const {
+    ListTitle,
+    Lists,
+    List,
+    ListContent,
+    ListOther,
+    ListIcon,
+    PanelTitle
+} = list;
+const {Radio, Checkbox, Switch} = form;
 
 class ListDemo extends Component {
     render() {
@@ -47,14 +55,22 @@ class ListDemo extends Component {
                 <Lists>
                     <List>
                         <ListIcon>
-                            <img src={iconSrc} alt="" style={{display: 'block', width: '20px', marginRight: '5px'}}/>
+                            <img src={iconSrc} alt="" style={{
+                                display: 'block',
+                                width: '20px',
+                                marginRight: '5px'
+                            }}/>
                         </ListIcon>
                         <ListContent>左侧文字</ListContent>
                         <ListOther>右侧文字</ListOther>
                     </List>
                     <List>
                         <ListIcon>
-                            <img src={iconSrc} alt="" style={{display: 'block', width: '20px', marginRight: '5px'}}/>
+                            <img src={iconSrc} alt="" style={{
+                                display: 'block',
+                                width: '20px',
+                                marginRight: '5px'
+                            }}/>
                         </ListIcon>
                         <ListContent>左侧文字</ListContent>
                         <ListOther>右侧文字</ListOther>
@@ -109,11 +125,11 @@ class ListDemo extends Component {
                 <ListTitle>文字组合列表</ListTitle>
                 <Lists>
                     <List>
-                       <PanelTitle>左侧文字</PanelTitle>
+                        <PanelTitle>左侧文字</PanelTitle>
                     </List>
                     <List>
                         <ListContent>
-
+                            内容文字内容文字内容文字内容文字内容文字内容文字内容文字内容文字
                         </ListContent>
                     </List>
                 </Lists>
@@ -124,4 +140,5 @@ class ListDemo extends Component {
     }
 }
 
-render(<ListDemo/>, document.getElementById('demo'));
+render(
+    <ListDemo/>, document.getElementById('demo'));

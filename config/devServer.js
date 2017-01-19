@@ -5,9 +5,6 @@ const webpack = require('webpack');
 //加载webpack 热加载服务器模块
 const webpackDevMiddleware = require('koa-webpack-dev-middleware');
 const webpackHotMiddleware = require('koa-webpack-hot-middleware');
-//加载webpack-dashboard监控视窗模块
-// const Dashboard = require('webpack-dashboard');
-// const DashboardPlugin = require('webpack-dashboard/plugin');
 //加载webpack配置文件
 const config = require('./webpack.config.dev');
 //加载koa服务器模块
@@ -19,10 +16,6 @@ var creatServer = () => {
     let app = koa();
     //初始化webpack应用
     let compiler = webpack(config);
-    //初始化webpack-dashboard应用
-    //let dashboard = new Dashboard();
-    //调用webpack-dashboard应用
-    //compiler.apply(new DashboardPlugin(dashboard.setData));
     //调用webpack热加载模块及对应参数
     app.use(webpackDevMiddleware(compiler, {
         //quiet: true,
@@ -30,7 +23,10 @@ var creatServer = () => {
         publicPath: config.output.publicPath,
         hot: true,
         lazy: false,
-        historyApiFallback: true
+        historyApiFallback: true,
+        stats: {
+            colors: true // 用颜色标识
+        },
     }));
     app.use(webpackHotMiddleware(compiler), {
         log: () => {}
